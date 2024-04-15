@@ -5,7 +5,7 @@ import Card from "./components/Card";
 import useComments from "./hooks/useComments";
 
 function App() {
-  const { comments, refetch } = useComments();
+  const { comments, refetch, isLoading } = useComments();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,6 +40,9 @@ function App() {
         }
       });
   };
+  if (isLoading) {
+    return <div className="min-h-screen">Loading.....</div>;
+  }
   return (
     <div className="w-11/12 mx-auto py-10 bg-white ">
       <div className="min-h-screen">
@@ -49,7 +52,7 @@ function App() {
         <div className="py-10 ">
           <h2 className="text-xl font-bold text-right">Recent Comments</h2>
           <div className="grid grid-cols-3 gap-5">
-            {comments.map((comment) => (
+            {comments?.map((comment) => (
               <Card
                 className="p-5 bg-green-100"
                 comment={comment}
