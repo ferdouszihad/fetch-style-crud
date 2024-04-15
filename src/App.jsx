@@ -1,23 +1,11 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import "./App.css";
-import { useState } from "react";
+// import { useState } from "react";
 import Card from "./components/Card";
+import useComments from "./hooks/useComments";
 
 function App() {
-  const [comments, setComments] = useState([]);
-  const [reloadToggle, setReloadToggle] = useState(false);
-  const refetch = () => {
-    setReloadToggle(!reloadToggle);
-  };
-
-  useEffect(() => {
-    fetch("http://localhost:5000/comments")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setComments(data);
-      });
-  }, [reloadToggle]);
+  const { comments, refetch } = useComments();
 
   const handleSubmit = (e) => {
     e.preventDefault();
