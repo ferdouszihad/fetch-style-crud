@@ -5,6 +5,10 @@ import Card from "./components/Card";
 
 function App() {
   const [comments, setComments] = useState([]);
+  const [reloadToggle, setReloadToggle] = useState(false);
+  const refetch = () => {
+    setReloadToggle(!reloadToggle);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5000/comments")
@@ -13,7 +17,7 @@ function App() {
         console.log(data);
         setComments(data);
       });
-  }, []);
+  }, [reloadToggle]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,8 +33,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
-          const newData = [...comments, { _id: data.insertedId, comment }];
-          setComments(newData);
+          // const newData = [...comments, { _id: data.insertedId, comment }];
+          // setComments(newData);
+          refetch();
         }
       });
   };
@@ -41,8 +46,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.deletedCount > 0) {
-          const remaining = comments.filter((comment) => comment._id != id);
-          setComments(remaining);
+          // const remaining = comments.filter((comment) => comment._id != id);
+          // setComments(remaining);
+          refetch();
         }
       });
   };
